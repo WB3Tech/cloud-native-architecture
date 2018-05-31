@@ -1,0 +1,32 @@
+@startuml
+
+actor Engineer as user
+
+box "GitLab" #LightGreen
+    participant "GitLab git repo" as git
+    participant "GitLab CI" as cicd
+    participant "GitLab docker repo" as dckr
+end box
+
+box "Google Cloud Platform" #LightBlue
+    participant "GKE" as clstr
+end box
+
+
+user -> git : Commits source code
+git <- cicd : Listens for commits
+
+== Software Build-time ==
+
+cicd <- cicd : Build source code
+cicd <- cicd : Run tests
+cicd <- cicd : Build  container
+cicd -> dckr : Persist container
+
+== Software Deploy-time ==
+
+cicd -> clstr : Deploy container
+
+== Software Runtime == 
+
+@enduml

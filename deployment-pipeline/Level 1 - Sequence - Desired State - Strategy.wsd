@@ -1,0 +1,25 @@
+@startuml
+
+actor Engineer as user
+participant "Source Code Repo" as git
+participant "Continuous Integration Tool" as cicd
+participant "Container Repo" as dckr
+participant "Hosting Environment" as clstr
+
+user -> git : Commits source code
+git <- cicd : Listens for commits
+
+== Software Build-time ==
+
+cicd <- cicd : Build source code
+cicd <- cicd : Run tests
+cicd <- cicd : Build  container
+cicd -> dckr : Persist container
+
+== Software Deploy-time ==
+
+cicd -> clstr : Deploy container
+
+== Software Runtime == 
+
+@enduml
